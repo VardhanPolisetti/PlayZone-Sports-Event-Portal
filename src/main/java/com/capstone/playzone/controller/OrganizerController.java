@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -92,6 +93,21 @@ public class OrganizerController {
 
         writer.flush();
         writer.close();
+    }
+
+    @PostMapping("/event/{id}/delete")
+    public String deleteEvent(@PathVariable Long id, Authentication auth, RedirectAttributes redirectAttributes) {
+        User organizer = userRepository.findByUsername(auth.getName());
+        SportsEvent event = eventRepository.findById(id).orElse(null);
+
+        if (event != null && event.getOrganizer().getId().equals(organizer.getId())) {
+            eventRepository.delete(event);
+            redirectAttributes.addFlashAttribute("success", "Event deleted successfully.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "You are not authorized to delete this event.");
+        }
+
+        return "redirect:/organizer/home";
     }
 
 }
