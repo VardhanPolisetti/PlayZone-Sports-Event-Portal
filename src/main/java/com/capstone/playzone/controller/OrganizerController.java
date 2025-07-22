@@ -6,6 +6,7 @@ import com.capstone.playzone.model.User;
 import com.capstone.playzone.repository.PlayerRegistrationRepository;
 import com.capstone.playzone.repository.SportsEventRepository;
 import com.capstone.playzone.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -60,5 +63,36 @@ public class OrganizerController {
         model.addAttribute("event", event);
         return "organizer/view-players";
     }
+
+    @GetMapping("/event/{id}/export")
+    @ResponseBody
+    public void exportRegistrationsToCSV(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        SportsEvent event = eventRepository.findById(id).orElse(null);
+        if (event == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Event not found");
+            return;
+        }
+
+        List<PlayerRegistration> registrations = registrationRepository.findByEvent(event);
+
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=registrations_event_" + id + ".csv");
+
+        PrintWriter writer = response.getWriter();
+        writer.println("Name,Gender,Age,Contact,Place");
+
+        for (PlayerRegistration reg : registrations) {
+            writer.printf("%s,%s,%d,%s,%s%n",
+                    reg.getPlayer().getUsername(),
+                    reg.getGender(),
+                    reg.getAge(),
+                    reg.getContact(),
+                    reg.getPlace());
+        }
+
+        writer.flush();
+        writer.close();
+    }
+
 }
 

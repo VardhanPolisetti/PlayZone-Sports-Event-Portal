@@ -7,6 +7,11 @@
 <h2>Players Registered for <span th:text="${event.sportType}"></span></h2>
 <a th:href="@{/organizer/home}">Back</a>
 <hr/>
+
+<a th:href="@{'/organizer/event/' + ${event.id} + '/export'}">
+    <button>Download CSV</button>
+</a>
+
 <table border="1">
     <tr>
         <th>Name</th>

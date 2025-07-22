@@ -8,14 +8,28 @@
 <form th:action="@{'/player/register/' + ${eventId}}" th:object="${registration}" method="post">
     <label>Name:</label>
     <input type="text" th:field="*{name}" required/><br/>
+
     <label>Gender:</label>
-    <input type="text" th:field="*{gender}" required/><br/>
+    <div>
+        <input type="radio" id="male" name="gender" th:field="*{gender}" value="Male" required/>
+        <label for="male">Male</label>
+
+        <input type="radio" id="female" name="gender" th:field="*{gender}" value="Female" />
+        <label for="female">Female</label>
+
+        <input type="radio" id="other" name="gender" th:field="*{gender}" value="Other" />
+        <label for="other">Other</label>
+    </div>
+
     <label>Age:</label>
-    <input type="number" th:field="*{age}" required/><br/>
+    <input type="number" th:field="*{age}" min="1" max="65" oninput="this.value = this.value.replace(/^0+/, '')" required/><br/>
+
     <label>Contact:</label>
     <input type="text" th:field="*{contact}" required/><br/>
-    <label>Place:</label>
+
+    <label>Your City:</label>
     <input type="text" th:field="*{place}" required/><br/>
+
     <button type="submit">Register</button>
 </form>
 </body>
