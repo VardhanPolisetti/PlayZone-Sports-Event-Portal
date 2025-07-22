@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registered Players</title>
+</head>
+<body>
+<h2>Players Registered for <span th:text="${event.sportType}"></span></h2>
+<a th:href="@{/organizer/home}">Back</a>
+<hr/>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Contact</th>
+        <th>Place</th>
+    </tr>
+    <tr th:each="reg : ${registrations}">
+        <td th:text="${reg.name}"></td>
+        <td th:text="${reg.gender}"></td>
+        <td th:text="${reg.age}"></td>
+        <td th:text="${reg.contact}"></td>
+        <td th:text="${reg.place}"></td>
+    </tr>
+</table>
+</body>
+</html>

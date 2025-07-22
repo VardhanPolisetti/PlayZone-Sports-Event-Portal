@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Player Dashboard</title>
+</head>
+<body>
+<h2>Welcome Player</h2>
+<a th:href="@{/player/registered}">My Registered Events</a> |
+<a th:href="@{/logout}">Logout</a>
+<hr/>
+<h3>Available Events</h3>
+<ul>
+    <li th:each="event : ${events}">
+        <b th:text="${event.sportType}"></b> at <span th:text="${event.place}"></span> on
+        <span th:text="${#temporals.format(event.dateTime, 'yyyy-MM-dd HH:mm')}"></span><br/>
+        Prizes: <span th:text="${event.prize1}"></span>,
+        <span th:text="${event.prize2}"></span>,
+        <span th:text="${event.prize3}"></span><br/>
+        Register Before: <span style="color:red" th:text="${event.registrationDeadline}"></span><br/>
+        <a th:href="@{'/player/register/' + ${event.id}}">Register</a>
+    </li>
+</ul>
+</body>
+</html>

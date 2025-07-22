@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Registered Events</title>
+</head>
+<body>
+<h2>My Registered Events</h2>
+<a th:href="@{/player/home}">Back</a>
+<hr/>
+<ul>
+    <li th:each="reg : ${registrations}">
+        <b th:text="${reg.event.sportType}"></b> at
+        <span th:text="${reg.event.place}"></span> on
+        <span th:text="${#temporals.format(reg.event.dateTime, 'yyyy-MM-dd HH:mm')}"></span>
+    </li>
+</ul>
+</body>
+</html>

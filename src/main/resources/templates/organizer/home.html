@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Organizer Dashboard</title>
+</head>
+<body>
+<h2>Welcome Organizer</h2>
+<a th:href="@{/organizer/create-event}">Create New Event</a> |
+<a th:href="@{/logout}">Logout</a>
+<hr/>
+<h3>Your Events</h3>
+<div th:if="${#lists.isEmpty(events)}">No events created yet.</div>
+<ul>
+    <li th:each="event : ${events}">
+        <b th:text="${event.sportType}"></b> at <span th:text="${event.place}"></span>
+        <a th:href="@{'/organizer/event/' + ${event.id} + '/registrations'}">View Registrations</a>
+    </li>
+</ul>
+</body>
+</html>

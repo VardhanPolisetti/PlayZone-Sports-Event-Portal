@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+<h2>Create Account</h2>
+<form th:action="@{/signup}" th:object="${user}" method="post">
+    <label>Username:</label>
+    <input type="text" th:field="*{username}" required/><br/>
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" required/><br/>
+    <label>Role:</label>
+    <select th:field="*{role}">
+        <option value="PLAYER">Player</option>
+        <option value="ORGANIZER">Organizer</option>
+    </select><br/>
+    <button type="submit">Register</button>
+</form>
+<p>Already have an account? <a th:href="@{/login}">Login</a></p>
+</body>
+</html>
