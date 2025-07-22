@@ -9,6 +9,8 @@
 <a th:href="@{/logout}">Logout</a>
 <hr/>
 <h3>Available Events</h3>
+<div th:if="${success}" class="success" th:text="${success}"></div>
+<div th:if="${error}" class="error" th:text="${error}"></div>
 <ul>
     <li th:each="event : ${events}">
         <b th:text="${event.sportType}"></b> at <span th:text="${event.place}"></span> on
